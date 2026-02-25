@@ -18,10 +18,10 @@ from blueprints.quotes import bp as quotes_bp
 from blueprints.problems import bp as problems_bp
 from blueprints.relaxation import bp as relaxation_bp
 from blueprints.documents import bp as documents_bp
-from blueprints.resources import bp as resources_bp
 from blueprints.brainstorm import bp as brainstorm_bp
 from blueprints.essays import bp as essays_bp
 from blueprints.error_questions import bp as error_questions_bp
+from blueprints.notes import bp as notes_bp
 
 app.register_blueprint(pomodoro_bp)
 app.register_blueprint(books_bp)
@@ -30,10 +30,10 @@ app.register_blueprint(quotes_bp)
 app.register_blueprint(problems_bp)
 app.register_blueprint(relaxation_bp)
 app.register_blueprint(documents_bp)
-app.register_blueprint(resources_bp)
 app.register_blueprint(brainstorm_bp)
 app.register_blueprint(essays_bp)
 app.register_blueprint(error_questions_bp)
+app.register_blueprint(notes_bp)
 
 
 @app.route('/api/health')

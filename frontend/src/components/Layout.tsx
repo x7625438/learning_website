@@ -21,9 +21,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { name: 'AI番茄钟', href: '/pomodoro', icon: '🍅' },
     { name: 'AI精神放松', href: '/relaxation', icon: '🌸' },
     { name: 'AI文档协作', href: '/documents', icon: '📋' },
-    { name: 'AI资料查找', href: '/resources', icon: '🔍' },
     { name: 'AI头脑风暴', href: '/brainstorm', icon: '🧠' },
     { name: 'AI作文批改', href: '/essays', icon: '✍️' },
+    { name: 'AI错题整理', href: '/error-questions', icon: '📝' },
+    { name: 'AI笔记助手', href: '/notes', icon: '📓' },
   ]
 
   const handleNavClick = () => {

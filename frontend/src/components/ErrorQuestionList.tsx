@@ -62,6 +62,17 @@ const ErrorQuestionList: React.FC<ErrorQuestionListProps> = ({ userId, refreshTr
     return 'bg-red-500'
   }
 
+  const handleDelete = async (e: React.MouseEvent, eqId: string) => {
+    e.stopPropagation()
+    if (!confirm('确定要删除这条错题吗？')) return
+    try {
+      await apiClient.delete(`/api/v1/error-questions/${eqId}`)
+      setErrorQuestions(prev => prev.filter(q => q.id !== eqId))
+    } catch (err) {
+      console.error('Failed to delete:', err)
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -104,15 +115,26 @@ const ErrorQuestionList: React.FC<ErrorQuestionListProps> = ({ userId, refreshTr
                     </span>
                   </div>
                 </div>
-                <div className="ml-4">
-                  <div className="text-sm text-gray-600 mb-1">掌握度</div>
-                  <div className="w-24 bg-gray-200 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full ${getMasteryColor(eq.masteryLevel)}`}
-                      style={{ width: `${eq.masteryLevel}%` }}
-                    ></div>
+                <div className="ml-4 flex items-start gap-3">
+                  <div>
+                    <div className="text-sm text-gray-600 mb-1">掌握度</div>
+                    <div className="w-24 bg-gray-200 rounded-full h-2">
+                      <div
+                        className={`h-2 rounded-full ${getMasteryColor(eq.masteryLevel)}`}
+                        style={{ width: `${eq.masteryLevel}%` }}
+                      ></div>
+                    </div>
+                    <div className="text-xs text-center mt-1">{eq.masteryLevel}%</div>
                   </div>
-                  <div className="text-xs text-center mt-1">{eq.masteryLevel}%</div>
+                  <button
+                    onClick={(e) => handleDelete(e, eq.id)}
+                    className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                    title="删除错题"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>

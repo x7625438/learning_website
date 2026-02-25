@@ -13,10 +13,9 @@ interface Quote {
 }
 
 interface QuoteStatistics {
-  totalCount: number
-  languageStats: Record<string, number>
-  themeStats: Record<string, number>
-  recentQuotes: Quote[]
+  totalQuotes: number
+  languageBreakdown: Record<string, number>
+  themeBreakdown: Record<string, number>
 }
 
 interface QuoteLibraryProps {
@@ -159,21 +158,21 @@ const QuoteLibrary: React.FC<QuoteLibraryProps> = ({ userId }) => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="text-3xl font-bold text-purple-600 mb-2">
-                {statistics.totalCount}
+                {statistics.totalQuotes}
               </div>
               <div className="text-sm text-gray-600">总金句数</div>
             </div>
             
             <div className="text-center">
               <div className="text-3xl font-bold text-blue-600 mb-2">
-                {Object.keys(statistics.themeStats).length}
+                {Object.keys(statistics.themeBreakdown).length}
               </div>
               <div className="text-sm text-gray-600">主题分类</div>
             </div>
             
             <div className="text-center">
               <div className="text-3xl font-bold text-green-600 mb-2">
-                {Object.keys(statistics.languageStats).length}
+                {Object.keys(statistics.languageBreakdown).length}
               </div>
               <div className="text-sm text-gray-600">语言类型</div>
             </div>

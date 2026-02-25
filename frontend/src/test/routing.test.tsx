@@ -69,11 +69,6 @@ describe('Routing and Navigation Tests', () => {
     expect(document.querySelector('body')).toBeTruthy()
   })
 
-  it('should render resources page at /resources route', () => {
-    renderWithRouter('/resources')
-    expect(document.querySelector('body')).toBeTruthy()
-  })
-
   it('should render brainstorm page at /brainstorm route', () => {
     renderWithRouter('/brainstorm')
     expect(document.querySelector('body')).toBeTruthy()

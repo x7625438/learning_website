@@ -5,6 +5,7 @@ import DocumentList from '../components/DocumentList'
 export default function Documents() {
   const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(null)
   const [refreshTrigger, setRefreshTrigger] = useState(0)
+  const [editorKey, setEditorKey] = useState(0)
 
   const handleDocumentSelect = (documentId: string) => {
     setSelectedDocumentId(documentId)
@@ -16,6 +17,7 @@ export default function Documents() {
 
   const handleNewDocument = () => {
     setSelectedDocumentId(null)
+    setEditorKey((prev) => prev + 1)
   }
 
   return (
@@ -41,6 +43,7 @@ export default function Documents() {
           {/* Document Editor */}
           <div className="lg:col-span-2">
             <DocumentEditor
+              key={editorKey}
               documentId={selectedDocumentId}
               onDocumentSaved={handleDocumentSaved}
             />

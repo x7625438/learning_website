@@ -11,10 +11,10 @@ import Problems from './pages/Problems'
 import Pomodoro from './pages/Pomodoro'
 import Relaxation from './pages/Relaxation'
 import Documents from './pages/Documents'
-import { Resources } from './pages/Resources'
 import Brainstorm from './pages/Brainstorm'
 import Essays from './pages/Essays'
 import ErrorQuestions from './pages/ErrorQuestions'
+import Notes from './pages/Notes'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,9 +42,9 @@ function App() {
             <Route path="/relaxation" element={<Relaxation />} />
             <Route path="/documents" element={<Documents />} />
             <Route path="/error-questions" element={<ErrorQuestions />} />
-            <Route path="/resources" element={<Resources />} />
             <Route path="/brainstorm" element={<Brainstorm />} />
             <Route path="/essays" element={<Essays />} />
+            <Route path="/notes" element={<Notes />} />
           </Routes>
           </Layout>
           <NotificationToast />

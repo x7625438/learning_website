@@ -97,11 +97,56 @@ def expand_section(doc_id):
 @bp.route('/suggestions', methods=['POST'])
 def get_suggestions():
     data = request.json or {}
+    content = data.get('content', '')
+    suggestion_type = data.get('suggestionType', 'structure')
     context = data.get('context', '')
+
+    if suggestion_type == 'structure':
+        prompt = f'请为以下文档提供结构优化建议：\n\n背景：{context}\n\n内容：\n{content}'
+    else:
+        prompt = f'请为以下文档提供改进建议：\n\n背景：{context}\n\n内容：\n{content}'
 
     result = chat_completion_json([
         {'role': 'system', 'content': '你是文档改进建议专家。返回JSON：{"suggestions":["建议1","建议2"],"explanation":"说明"}'},
-        {'role': 'user', 'content': f'请为以下文档内容提供改进建议：\n\n{context}'}
+        {'role': 'user', 'content': prompt}
+    ])
+    return jsonify(result)
+
+
+@bp.route('/<doc_id>/suggestions/structure', methods=['POST'])
+def get_structure_suggestions(doc_id):
+    data = request.json or {}
+    context = data.get('context', '')
+
+    db = get_db()
+    doc = row_to_dict(db.execute('SELECT * FROM documents WHERE id = ?', (doc_id,)).fetchone())
+    db.close()
+    if not doc:
+        return error_response('Document not found', 404)
+
+    content = doc['content'][:3000] if doc['content'] else ''
+    result = chat_completion_json([
+        {'role': 'system', 'content': '你是文档结构优化专家。返回JSON：{"suggestions":["建议1","建议2"],"explanation":"说明"}'},
+        {'role': 'user', 'content': f'请为以下文档提供结构优化建议：\n\n标题：{doc["title"]}\n背景：{context}\n\n内容：\n{content}'}
+    ])
+    return jsonify(result)
+
+
+@bp.route('/<doc_id>/suggestions/improvement', methods=['POST'])
+def get_improvement_suggestions(doc_id):
+    data = request.json or {}
+    context = data.get('context', '')
+
+    db = get_db()
+    doc = row_to_dict(db.execute('SELECT * FROM documents WHERE id = ?', (doc_id,)).fetchone())
+    db.close()
+    if not doc:
+        return error_response('Document not found', 404)
+
+    content = doc['content'][:3000] if doc['content'] else ''
+    result = chat_completion_json([
+        {'role': 'system', 'content': '你是文档改进专家。返回JSON：{"suggestions":["建议1","建议2"],"explanation":"说明"}'},
+        {'role': 'user', 'content': f'请为以下文档提供内容改进建议，包括语言表达、逻辑连贯性、论证力度等方面：\n\n标题：{doc["title"]}\n背景：{context}\n\n内容：\n{content}'}
     ])
     return jsonify(result)
 

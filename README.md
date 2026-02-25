@@ -1,76 +1,94 @@
-# AI赋能学习平台
+# AI 赋能学习平台 v1.0
 
-全栈 AI 学习平台，集成通义千问大模型，提供智能阅读、论文分析、解题辅导等 11 个功能模块。
+一个全栈 AI 驱动的智能学习平台，集成 11 个功能模块，利用大语言模型为学习者提供个性化的学习辅助体验。
 
 ## 技术栈
 
-**前端**: React 18 + TypeScript + Vite 5 + Tailwind CSS + Zustand + React Query
+**前端**: React 18 + TypeScript + Vite 5 + Tailwind CSS 3 + Zustand + React Query v5 + Framer Motion
 
-**后端**: Python 3 + Flask + SQLite + OpenAI SDK (DashScope)
+**后端**: Python Flask 3.0 + SQLite (WAL) + OpenAI SDK (阿里云 DashScope / 通义千问)
 
-**AI 模型**: 通义千问 qwen2.5-7b-instruct-1m
+**AI 模型**: Qwen 2.5-7B (文本) / Qwen 2.5-VL-32B (视觉)
 
 ## 功能模块
 
-| 模块 | 说明 |
-|------|------|
-| 书籍阅读 | 上传书籍(TXT/PDF/DOCX)，AI摘要，SQ3R阅读法指导，与作者对话 |
-| 论文分析 | PDF上传，AI翻译，术语注释，论文问答 |
-| 每日金句 | AI生成主题金句，收藏管理 |
-| 解题辅导 | AI分析题目，引导式解题，提示系统 |
-| 番茄钟 | 专注计时，学习统计 |
-| 放松聊天 | AI情感陪伴，情绪识别 |
-| 文档编辑 | 文档CRUD，AI结构建议与质量评估 |
-| 资源搜索 | AI搜索策略，资源推荐 |
-| 头脑风暴 | 四角色AI讨论，观点综合 |
-| 作文批改 | AI多维度评分与反馈 |
-| 错题本 | 错题管理，薄弱分析，AI生成练习 |
-
-## 项目结构
-
-```
-learning_website/
-├── frontend/          # React 前端
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── store/
-│   │   ├── utils/
-│   │   └── types/
-│   └── package.json
-├── backend/           # Flask 后端
-│   ├── app.py
-│   ├── config.py
-│   ├── database.py
-│   ├── schema.sql
-│   ├── blueprints/    # 11个功能蓝图
-│   ├── services/      # AI服务封装
-│   └── utils/         # 工具函数
-└── README.md
-```
+| 模块 | 路由 | 说明 |
+|------|------|------|
+| 📚 AI 阅读助手 | `/books` | 上传书籍，AI 生成摘要，SQ3R 阅读法指导，作者角色对话 |
+| 📄 AI 论文助手 | `/papers` | 上传 PDF 论文，全文翻译，智能问答，术语标注 |
+| ✨ AI 名言生成 | `/quotes` | 按主题/风格生成名言，每日名言，名言库管理 |
+| 🧮 AI 解题助手 | `/problems` | 逐步引导解题，提示系统，生成同类练习题 |
+| 🍅 AI 番茄钟 | `/pomodoro` | 专注计时，学习统计，每日数据追踪 |
+| 🌸 AI 心理放松 | `/relaxation` | 情感陪伴对话，情绪识别，压力追踪 |
+| 📋 AI 文档协作 | `/documents` | 文档创建编辑，质量评估，内容扩展与优化建议 |
+| 🧠 AI 头脑风暴 | `/brainstorm` | 四角色多视角讨论（乐观/悲观/现实/创意），综合建议 |
+| ✍️ AI 作文批改 | `/essays` | 提交作文获取评分与反馈，优化示例，改进建议 |
+| 📝 AI 错题管理 | `/error-questions` | 错题录入与分析，薄弱点识别，生成针对性练习 |
+| 📓 AI 笔记助手 | `/notes` | 康奈尔笔记法 & 费曼学习法，间隔重复复习 |
 
 ## 快速开始
 
-### 后端
+### 环境要求
+
+- Python 3.8+
+- Node.js 18+
+- 阿里云 DashScope API Key
+
+### 后端启动
 
 ```bash
 cd backend
 pip install -r requirements.txt
+# 配置环境变量 DASHSCOPE_API_KEY
 python app.py
-# 运行在 http://localhost:5000
+# 服务运行在 http://localhost:5000
 ```
 
-### 前端
+### 前端启动
 
 ```bash
 cd frontend
 npm install
 npm run dev
-# 运行在 http://localhost:5173
+# 服务运行在 http://localhost:5173
 ```
 
-## API 概览
+## 项目结构
 
-后端提供 65 个 RESTful API 端点，基础路径 `/api/v1/`（番茄钟为 `/api/pomodoro`）。
+```
+├── backend/
+│   ├── app.py                 # Flask 应用入口
+│   ├── config.py              # 配置（API Key、模型名称）
+│   ├── database.py            # SQLite 数据库连接
+│   ├── schema.sql             # 数据表定义（12 张表）
+│   ├── blueprints/            # 11 个功能模块 API
+│   ├── services/ai_service.py # LLM 调用封装
+│   └── utils/                 # 工具函数（ID 生成、文件解析）
+│
+├── frontend/
+│   ├── src/
+│   │   ├── pages/             # 12 个页面组件
+│   │   ├── components/        # 50+ UI 组件
+│   │   ├── store/             # Zustand 状态管理
+│   │   ├── utils/api-client.ts # Axios API 客户端
+│   │   └── types/             # TypeScript 类型定义
+│   └── Dockerfile             # Docker 生产构建
+```
 
-健康检查: `GET /api/health`
+## 开发命令
+
+```bash
+# 后端
+python app.py                          # 启动服务
+curl http://localhost:5000/api/health  # 健康检查
+
+# 前端
+npm run dev                    # 开发服务器
+npm run build                  # 生产构建 (tsc + vite build)
+npm run lint                   # ESLint 检查
+npm run test                   # 运行测试
+```
+
+## License
+
+MIT

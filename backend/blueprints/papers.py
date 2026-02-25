@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify
 from database import get_db
 from utils.helpers import gen_id, now_iso, row_to_dict, rows_to_list, parse_json_field, error_response
 from utils.file_parser import extract_text_from_file
-from services.ai_service import chat_completion, chat_completion_json
+from services.ai_service import chat_completion, chat_completion_json, translate_long_text
 import config
 
 bp = Blueprint('papers', __name__, url_prefix='/api/v1/papers')
@@ -70,11 +70,8 @@ def translate_paper(paper_id):
         db.close()
         return error_response('Paper not found', 404)
 
-    content = paper['content'][:4000] if paper['content'] else ''
-    translated = chat_completion([
-        {'role': 'system', 'content': '你是专业的学术论文翻译专家，将英文论文翻译为中文，保持学术术语的准确性。'},
-        {'role': 'user', 'content': f'请翻译以下论文内容：\n\n{content}'}
-    ], max_tokens=4000)
+    content = paper['content'] or ''
+    translated = translate_long_text(content)
 
     db.execute('UPDATE papers SET translated_content = ? WHERE id = ?', (translated, paper_id))
     db.commit()

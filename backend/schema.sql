@@ -130,3 +130,18 @@ CREATE TABLE IF NOT EXISTS error_questions (
     mastery_level REAL DEFAULT 0,
     created_at TEXT DEFAULT (datetime('now'))
 );
+
+CREATE TABLE IF NOT EXISTS notes (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    title TEXT NOT NULL,
+    content TEXT DEFAULT '',
+    method TEXT DEFAULT 'free',
+    cornell_data TEXT DEFAULT '{}',
+    feynman_result TEXT DEFAULT '{}',
+    tags TEXT DEFAULT '[]',
+    next_review_at TEXT,
+    review_count INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
+);

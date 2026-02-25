@@ -12,7 +12,6 @@ export const API_ENDPOINTS = {
   POMODORO: '/api/v1/pomodoro',
   RELAXATION_CHAT: '/api/v1/relaxation-chat',
   DOCUMENTS: '/api/v1/documents',
-  RESOURCES: '/api/v1/resources',
   BRAINSTORM: '/api/v1/brainstorm',
   ERROR_QUESTIONS: '/api/v1/error-questions',
   ESSAYS: '/api/v1/essays',

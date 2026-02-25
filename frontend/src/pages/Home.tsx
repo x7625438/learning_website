@@ -68,13 +68,6 @@ const Home: React.FC = () => {
       color: 'from-purple-500 to-purple-600'
     },
     {
-      title: 'AI资料查找助手',
-      description: '智能搜索学术资料，论文素材推荐，文献整理分类，研究方向建议',
-      icon: '🔍',
-      href: '/resources',
-      color: 'from-cyan-500 to-cyan-600'
-    },
-    {
       title: 'AI错题整理助手',
       description: '错题自动分析，知识点归纳，专属刷题库生成，薄弱环节强化',
       icon: '📊',

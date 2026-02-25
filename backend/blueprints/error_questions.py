@@ -25,6 +25,15 @@ def add_error_question():
     return jsonify(_format_eq(row))
 
 
+@bp.route('/<eq_id>', methods=['DELETE'])
+def delete_error_question(eq_id):
+    db = get_db()
+    db.execute('DELETE FROM error_questions WHERE id = ?', (eq_id,))
+    db.commit()
+    db.close()
+    return jsonify({'message': 'ok'})
+
+
 @bp.route('/user/<user_id>', methods=['GET'])
 def get_user_errors(user_id):
     db = get_db()
