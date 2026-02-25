@@ -1,63 +1,76 @@
-# AI 赋能学习平台
+# AI赋能学习平台
 
-一个基于 AI 的综合学习平台，提供多种智能学习工具，帮助用户高效学习。
-
-## 功能模块
-
-- **书籍阅读** — 在线阅读与管理书籍
-- **论文管理** — 上传、阅读和管理学术论文
-- **每日名言** — AI 生成励志名言，构建个人名言库
-- **智能解题** — AI 辅助解答学习中遇到的问题
-- **番茄钟** — 专注计时与学习统计，含森林可视化
-- **放松聊天** — 与 AI 轻松对话，缓解学习压力
-- **文档编辑** — 在线文档创建与编辑
-- **资源搜索** — 智能搜索学习资源
-- **头脑风暴** — AI 协助进行创意发散与思维整理
-- **作文批改** — AI 批改作文并给出评分与建议
-- **错题本** — 上传错题，AI 分析错因并提供解题思路
+全栈 AI 学习平台，集成通义千问大模型，提供智能阅读、论文分析、解题辅导等 11 个功能模块。
 
 ## 技术栈
 
-**前端：** React 18 / TypeScript / Vite 5 / Tailwind CSS 3 / Zustand / React Query v5 / React Router v6 / Framer Motion
+**前端**: React 18 + TypeScript + Vite 5 + Tailwind CSS + Zustand + React Query
 
-## 快速开始
+**后端**: Python 3 + Flask + SQLite + OpenAI SDK (DashScope)
 
-```bash
-# 安装依赖
-cd frontend
-npm install
+**AI 模型**: 通义千问 qwen2.5-7b-instruct-1m
 
-# 启动开发服务器
-npm run dev
+## 功能模块
 
-# 构建生产版本
-npm run build
-```
-
-## 环境变量
-
-在 `frontend/` 目录下创建 `.env` 文件：
-
-```env
-VITE_API_URL=http://localhost:5000
-```
+| 模块 | 说明 |
+|------|------|
+| 书籍阅读 | 上传书籍(TXT/PDF/DOCX)，AI摘要，SQ3R阅读法指导，与作者对话 |
+| 论文分析 | PDF上传，AI翻译，术语注释，论文问答 |
+| 每日金句 | AI生成主题金句，收藏管理 |
+| 解题辅导 | AI分析题目，引导式解题，提示系统 |
+| 番茄钟 | 专注计时，学习统计 |
+| 放松聊天 | AI情感陪伴，情绪识别 |
+| 文档编辑 | 文档CRUD，AI结构建议与质量评估 |
+| 资源搜索 | AI搜索策略，资源推荐 |
+| 头脑风暴 | 四角色AI讨论，观点综合 |
+| 作文批改 | AI多维度评分与反馈 |
+| 错题本 | 错题管理，薄弱分析，AI生成练习 |
 
 ## 项目结构
 
 ```
-frontend/
-├── src/
-│   ├── components/    # 组件
-│   ├── pages/         # 页面
-│   ├── store/         # Zustand 状态管理
-│   ├── types/         # TypeScript 类型定义
-│   ├── utils/         # 工具函数（API 客户端等）
-│   ├── App.tsx        # 路由配置
-│   └── main.tsx       # 入口文件
-├── package.json
-└── vite.config.ts
+learning_website/
+├── frontend/          # React 前端
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── store/
+│   │   ├── utils/
+│   │   └── types/
+│   └── package.json
+├── backend/           # Flask 后端
+│   ├── app.py
+│   ├── config.py
+│   ├── database.py
+│   ├── schema.sql
+│   ├── blueprints/    # 11个功能蓝图
+│   ├── services/      # AI服务封装
+│   └── utils/         # 工具函数
+└── README.md
 ```
 
-## License
+## 快速开始
 
-MIT
+### 后端
+
+```bash
+cd backend
+pip install -r requirements.txt
+python app.py
+# 运行在 http://localhost:5000
+```
+
+### 前端
+
+```bash
+cd frontend
+npm install
+npm run dev
+# 运行在 http://localhost:5173
+```
+
+## API 概览
+
+后端提供 65 个 RESTful API 端点，基础路径 `/api/v1/`（番茄钟为 `/api/pomodoro`）。
+
+健康检查: `GET /api/health`

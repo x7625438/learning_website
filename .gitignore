@@ -6,3 +6,10 @@ dist/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Backend
+__pycache__/
+*.pyc
+*.db
+backend/uploads/*
+!backend/uploads/.gitkeep
