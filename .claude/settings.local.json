@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(head:*)",
+      "Bash(cd D:/learning_website/frontend && npm run dev 2>&1)"
+    ]
+  }
+}
