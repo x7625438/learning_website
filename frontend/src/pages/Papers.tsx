@@ -65,12 +65,12 @@ export function Papers() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            AI论文助手
+    <div className="max-w-6xl mx-auto p-4 sm:p-6">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-surface-800 mb-2">
+            论文助手
           </h1>
-          <p className="text-gray-600">
+          <p className="text-surface-400 text-sm sm:text-base">
             上传英文论文，获得智能翻译、术语注释和深度分析
           </p>
         </div>
@@ -86,13 +86,13 @@ export function Papers() {
 
           {/* Papers List Section */}
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-surface-800">
               我的论文库
             </h2>
-            
+
             {loading && (
               <div className="flex items-center justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-[3px] border-primary-100 border-t-primary-500"></div>
               </div>
             )}
 

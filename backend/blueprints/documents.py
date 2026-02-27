@@ -56,99 +56,71 @@ def update_document(doc_id):
     return jsonify(_format_doc(doc))
 
 
-@bp.route('/<doc_id>/assess', methods=['POST'])
-def assess_quality(doc_id):
-    data = request.json or {}
-    context = data.get('context', '')
+@bp.route('/<doc_id>', methods=['DELETE'])
+def delete_document(doc_id):
+    db = get_db()
+    db.execute('DELETE FROM documents WHERE id = ?', (doc_id,))
+    db.commit()
+    db.close()
+    return jsonify({'message': 'ok'})
 
+
+@bp.route('/<doc_id>/chat', methods=['POST'])
+def document_chat(doc_id):
     db = get_db()
     doc = row_to_dict(db.execute('SELECT * FROM documents WHERE id = ?', (doc_id,)).fetchone())
     db.close()
     if not doc:
         return error_response('Document not found', 404)
 
-    content = doc['content'][:3000] if doc['content'] else ''
-    result = chat_completion_json([
-        {'role': 'system', 'content': '你是文档质量评估专家。返回JSON：{"overallScore":85,"dimensions":{"structure":80,"language":85,"logic":90,"completeness":75},"strengths":["优点"],"weaknesses":["不足"],"recommendations":["建议"],"detailedFeedback":"详细反馈"}'},
-        {'role': 'user', 'content': f'请评估以下文档质量：\n\n标题：{doc["title"]}\n上下文：{context}\n\n内容：\n{content}'}
-    ])
-    return jsonify(result)
-
-
-@bp.route('/<doc_id>/expand', methods=['POST'])
-def expand_section(doc_id):
     data = request.json or {}
-    section = data.get('section', '')
-    context = data.get('context', '')
+    history = data.get('history', [])
+    content = doc['content'][:4000] if doc['content'] else ''
 
-    db = get_db()
-    doc = row_to_dict(db.execute('SELECT * FROM documents WHERE id = ?', (doc_id,)).fetchone())
-    db.close()
-    if not doc:
-        return error_response('Document not found', 404)
+    system_msg = (
+        '你是一位专业的写作助手，正在与用户协作编辑文档。\n'
+        '你可以：提供修改建议、改写段落、扩展内容、优化结构、修正语法等。\n'
+        '当用户要求修改文档时，直接给出修改后的完整文本，不要用代码块包裹。\n'
+        '回复简洁实用。\n\n'
+        f'当前文档标题：{doc["title"]}\n'
+        f'当前文档内容：\n{content}'
+    )
 
-    expanded = chat_completion([
-        {'role': 'system', 'content': '你是内容扩展专家，帮助用户扩展文档的特定部分。'},
-        {'role': 'user', 'content': f'文档标题：{doc["title"]}\n上下文：{context}\n\n请扩展以下部分：\n{section}'}
-    ])
-    return jsonify({'expandedContent': expanded})
+    messages = [{'role': 'system', 'content': system_msg}] + history
+    reply = chat_completion(messages, temperature=0.7)
+    return jsonify({'reply': reply})
 
 
-@bp.route('/suggestions', methods=['POST'])
-def get_suggestions():
+@bp.route('/generate', methods=['POST'])
+def generate_document():
+    """AI generates a full document based on user prompt, returns title + content."""
     data = request.json or {}
-    content = data.get('content', '')
-    suggestion_type = data.get('suggestionType', 'structure')
-    context = data.get('context', '')
-
-    if suggestion_type == 'structure':
-        prompt = f'请为以下文档提供结构优化建议：\n\n背景：{context}\n\n内容：\n{content}'
-    else:
-        prompt = f'请为以下文档提供改进建议：\n\n背景：{context}\n\n内容：\n{content}'
+    prompt = data.get('prompt', '')
+    user_id = data.get('userId', '')
 
     result = chat_completion_json([
-        {'role': 'system', 'content': '你是文档改进建议专家。返回JSON：{"suggestions":["建议1","建议2"],"explanation":"说明"}'},
+        {'role': 'system', 'content': (
+            '你是专业写作助手。根据用户需求生成一篇完整文档。\n'
+            '返回JSON：{"title":"文档标题","content":"文档正文内容"}\n'
+            '正文用纯文本，段落之间用换行分隔，标题用 # 标记。'
+        )},
         {'role': 'user', 'content': prompt}
     ])
-    return jsonify(result)
 
+    title = result.get('title', '未命名文档')
+    content = result.get('content', '')
 
-@bp.route('/<doc_id>/suggestions/structure', methods=['POST'])
-def get_structure_suggestions(doc_id):
-    data = request.json or {}
-    context = data.get('context', '')
-
+    doc_id = gen_id()
+    now = now_iso()
     db = get_db()
+    db.execute(
+        'INSERT INTO documents (id, title, content, user_id, created_at, updated_at) VALUES (?,?,?,?,?,?)',
+        (doc_id, title, content, user_id, now, now)
+    )
+    db.commit()
     doc = row_to_dict(db.execute('SELECT * FROM documents WHERE id = ?', (doc_id,)).fetchone())
     db.close()
-    if not doc:
-        return error_response('Document not found', 404)
-
-    content = doc['content'][:3000] if doc['content'] else ''
-    result = chat_completion_json([
-        {'role': 'system', 'content': '你是文档结构优化专家。返回JSON：{"suggestions":["建议1","建议2"],"explanation":"说明"}'},
-        {'role': 'user', 'content': f'请为以下文档提供结构优化建议：\n\n标题：{doc["title"]}\n背景：{context}\n\n内容：\n{content}'}
-    ])
-    return jsonify(result)
-
-
-@bp.route('/<doc_id>/suggestions/improvement', methods=['POST'])
-def get_improvement_suggestions(doc_id):
-    data = request.json or {}
-    context = data.get('context', '')
-
-    db = get_db()
-    doc = row_to_dict(db.execute('SELECT * FROM documents WHERE id = ?', (doc_id,)).fetchone())
-    db.close()
-    if not doc:
-        return error_response('Document not found', 404)
-
-    content = doc['content'][:3000] if doc['content'] else ''
-    result = chat_completion_json([
-        {'role': 'system', 'content': '你是文档改进专家。返回JSON：{"suggestions":["建议1","建议2"],"explanation":"说明"}'},
-        {'role': 'user', 'content': f'请为以下文档提供内容改进建议，包括语言表达、逻辑连贯性、论证力度等方面：\n\n标题：{doc["title"]}\n背景：{context}\n\n内容：\n{content}'}
-    ])
-    return jsonify(result)
+    return jsonify(_format_doc(doc))
 
 
 def _format_doc(d):

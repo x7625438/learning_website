@@ -92,9 +92,26 @@ def paper_question(paper_id):
         return error_response('Paper not found', 404)
 
     content = paper['content'][:3000] if paper['content'] else ''
+
+    if context:
+        prompt = (
+            f'用户在阅读论文《{paper["title"]}》时，选中了以下文本片段：\n'
+            f'「{context}」\n\n'
+            f'用户针对这段选中文本提出了问题：{question}\n\n'
+            f'请围绕选中的文本片段来回答，解释其含义、作用或相关背景。'
+            f'可以结合论文上下文辅助说明，但不要偏离选中内容去概括全文。\n\n'
+            f'论文上下文（仅供参考）：\n{content[:1500]}'
+        )
+    else:
+        prompt = (
+            f'论文标题：{paper["title"]}\n\n'
+            f'论文内容：\n{content}\n\n'
+            f'问题：{question}'
+        )
+
     answer = chat_completion([
-        {'role': 'system', 'content': '你是学术论文问答助手，基于论文内容准确回答问题。'},
-        {'role': 'user', 'content': f'论文标题：{paper["title"]}\n\n论文内容：\n{content}\n\n额外上下文：{context}\n\n问题：{question}'}
+        {'role': 'system', 'content': '你是学术论文阅读助手。当用户选中了特定文本片段并提问时，你必须聚焦于该片段进行解答，不要概括全文。回答简洁、准确、易懂。'},
+        {'role': 'user', 'content': prompt}
     ])
     return jsonify({'answer': answer})
 

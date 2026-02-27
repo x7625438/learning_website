@@ -100,25 +100,41 @@ def cornell_guide(note_id):
     return jsonify(result)
 
 
-@bp.route('/<note_id>/feynman', methods=['POST'])
-def feynman_check(note_id):
+@bp.route('/<note_id>/feynman-chat', methods=['POST'])
+def feynman_chat(note_id):
     db = get_db()
     note = row_to_dict(db.execute('SELECT * FROM notes WHERE id = ?', (note_id,)).fetchone())
     if not note:
         db.close()
         return error_response('Note not found', 404)
-
-    content = note['content'][:3000] if note['content'] else ''
-    result = chat_completion_json([
-        {'role': 'system', 'content': '你是费曼学习法专家。评估用户对知识的理解程度，找出薄弱点。返回JSON：{"score":85,"level":"良好","strengths":["理解到位的部分"],"weaknesses":["需要加强的部分"],"suggestions":["改进建议"],"simplifiedExplanation":"用更简单的语言重新解释这个概念"}'},
-        {'role': 'user', 'content': f'请用费曼学习法评估以下笔记的理解程度：\n\n标题：{note["title"]}\n\n内容：\n{content}'}
-    ])
-
-    db.execute('UPDATE notes SET feynman_result=?, updated_at=? WHERE id=?',
-               (json.dumps(result), now_iso(), note_id))
-    db.commit()
     db.close()
-    return jsonify(result)
+
+    data = request.json
+    history = data.get('history', [])
+    content = note['content'][:3000] if note['content'] else ''
+    cornell = parse_json_field(note['cornell_data'], {})
+    cues = cornell.get('cues', '')
+    summary = cornell.get('summary', '')
+
+    system_msg = (
+        '你是一位费曼学习法教练。你的任务是根据用户的笔记内容，通过提问来检验用户是否真正理解了笔记中的知识。\n'
+        '规则：\n'
+        '- 每次只问一个问题，简洁明了\n'
+        '- 根据用户的回答判断理解程度，给出简短反馈后继续追问\n'
+        '- 问题应该由浅入深，从基本概念到应用\n'
+        '- 如果用户回答不上来，给予提示而不是直接告诉答案\n'
+        '- 用鼓励性的语气\n\n'
+        f'笔记标题：{note["title"]}\n'
+        f'笔记内容：\n{content}\n'
+    )
+    if cues:
+        system_msg += f'线索/关键词：\n{cues}\n'
+    if summary:
+        system_msg += f'总结：\n{summary}\n'
+
+    messages = [{'role': 'system', 'content': system_msg}] + history
+    reply = chat_completion(messages, temperature=0.7)
+    return jsonify({'reply': reply})
 
 
 @bp.route('/user/<user_id>/review', methods=['GET'])

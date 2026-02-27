@@ -15,31 +15,31 @@ export default function Brainstorm() {
         className="max-w-7xl mx-auto"
       >
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2">
-            🧠 AI头脑风暴助手
+          <h1 className="text-2xl sm:text-3xl font-semibold text-surface-800 mb-1.5">
+            头脑风暴
           </h1>
-          <p className="text-gray-600 text-sm sm:text-base">
+          <p className="text-surface-400 text-sm sm:text-base">
             四个AI角色与你一起进行头脑风暴，从多角度分析问题
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2 sm:gap-4 mb-6">
+        <div className="flex flex-wrap gap-2 sm:gap-3 mb-6">
           <button
             onClick={() => setShowHistory(false)}
-            className={`px-4 sm:px-6 py-2.5 sm:py-2 rounded-lg font-medium transition-colors text-sm sm:text-base ${
+            className={`px-4 sm:px-5 py-2 rounded-xl text-sm font-medium transition-all ${
               !showHistory
-                ? 'bg-purple-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-primary-500 text-white shadow-soft-sm'
+                : 'glass text-surface-500 hover:text-surface-700'
             }`}
           >
             头脑风暴室
           </button>
           <button
             onClick={() => setShowHistory(true)}
-            className={`px-4 sm:px-6 py-2.5 sm:py-2 rounded-lg font-medium transition-colors text-sm sm:text-base ${
+            className={`px-4 sm:px-5 py-2 rounded-xl text-sm font-medium transition-all ${
               showHistory
-                ? 'bg-purple-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-primary-500 text-white shadow-soft-sm'
+                : 'glass text-surface-500 hover:text-surface-700'
             }`}
           >
             历史记录

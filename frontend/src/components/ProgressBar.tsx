@@ -17,10 +17,10 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   className = ''
 }) => {
   const colorClasses = {
-    blue: 'bg-blue-600',
-    green: 'bg-green-600',
-    purple: 'bg-purple-600',
-    orange: 'bg-orange-600'
+    blue: 'bg-primary-500',
+    green: 'bg-emerald-500',
+    purple: 'bg-violet-500',
+    orange: 'bg-amber-500',
   }
 
   const clampedProgress = Math.min(Math.max(progress, 0), 100)
@@ -28,14 +28,14 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   return (
     <div className={`w-full ${className}`}>
       {(label || showPercentage) && (
-        <div className="flex justify-between items-center mb-2">
-          {label && <span className="text-sm font-medium text-gray-700">{label}</span>}
+        <div className="flex justify-between items-center mb-1.5">
+          {label && <span className="text-sm font-medium text-surface-600">{label}</span>}
           {showPercentage && (
-            <span className="text-sm font-medium text-gray-600">{Math.round(clampedProgress)}%</span>
+            <span className="text-xs font-medium text-surface-400">{Math.round(clampedProgress)}%</span>
           )}
         </div>
       )}
-      <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+      <div className="w-full bg-surface-100 rounded-full h-2 overflow-hidden">
         <motion.div
           className={`h-full ${colorClasses[color]} rounded-full`}
           initial={{ width: 0 }}

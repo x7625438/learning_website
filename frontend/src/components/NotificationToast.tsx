@@ -23,15 +23,15 @@ const NotificationToast = () => {
   const getColor = (type: string) => {
     switch (type) {
       case 'success':
-        return 'bg-green-500'
+        return 'bg-emerald-500'
       case 'error':
         return 'bg-red-500'
       case 'warning':
-        return 'bg-yellow-500'
+        return 'bg-amber-500'
       case 'info':
-        return 'bg-blue-500'
+        return 'bg-primary-500'
       default:
-        return 'bg-gray-500'
+        return 'bg-surface-500'
     }
   }
 
@@ -44,7 +44,7 @@ const NotificationToast = () => {
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 100 }}
-            className={`${getColor(notification.type)} text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 min-w-[300px] max-w-[400px]`}
+            className={`${getColor(notification.type)} text-white px-4 py-3 rounded-2xl shadow-soft-lg flex items-center gap-3 min-w-[280px] max-w-[380px]`}
           >
             <span className="text-xl font-bold">{getIcon(notification.type)}</span>
             <p className="flex-1 text-sm">{notification.message}</p>

@@ -53,36 +53,36 @@ const Books: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header - responsive layout */}
-      <div className="bg-white shadow-sm">
+    <div className="min-h-screen">
+      {/* Header */}
+      <div className="glass-strong shadow-soft-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 py-4 sm:py-6">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 py-4 sm:py-5">
             <div className="flex items-center gap-3 min-w-0 flex-1">
               {currentView !== 'list' && (
                 <button
                   onClick={handleBackToList}
-                  className="flex items-center text-gray-600 hover:text-gray-900 transition-colors flex-shrink-0 py-2"
+                  className="flex items-center text-surface-500 hover:text-surface-700 transition-colors flex-shrink-0 py-2"
                 >
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                   返回
                 </button>
               )}
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">
-                {currentView === 'list' && 'AI读书助手'}
+              <h1 className="text-xl sm:text-2xl font-semibold text-surface-800 truncate">
+                {currentView === 'list' && '读书助手'}
                 {currentView === 'upload' && '上传书籍'}
                 {currentView === 'reader' && (selectedBook?.title ?? '')}
               </h1>
             </div>
-            
+
             {currentView === 'list' && (
               <button
                 onClick={() => setCurrentView('upload')}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-2 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2 flex-shrink-0 w-full sm:w-auto"
+                className="bg-primary-500 hover:bg-primary-600 text-white px-4 sm:px-5 py-2 rounded-xl text-sm font-medium transition-all shadow-soft-sm hover:shadow-soft-md flex items-center justify-center gap-2 flex-shrink-0 w-full sm:w-auto"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
                 <span>上传书籍</span>
@@ -106,31 +106,31 @@ const Books: React.FC = () => {
             >
               <div className="px-4 sm:px-0">
                 {/* Welcome Section - responsive */}
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 sm:p-8 mb-6 sm:mb-8 text-white">
-                  <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">欢迎使用AI读书助手</h2>
-                  <p className="text-base sm:text-lg opacity-90 mb-4 sm:mb-6">
+                <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-6 sm:p-8 mb-6 sm:mb-8 text-white shadow-soft-md">
+                  <h2 className="text-xl sm:text-2xl font-semibold mb-2 sm:mb-3">欢迎使用读书助手</h2>
+                  <p className="text-sm sm:text-base opacity-90 mb-4 sm:mb-5">
                     上传您的书籍，享受AI驱动的智能阅读体验。包括自动摘要生成、作者对话、SQ3R阅读指导等功能。
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 text-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-sm">
                     <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <div className="w-7 h-7 bg-white/20 rounded-full flex items-center justify-center">
+                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </div>
                       <span>自动生成书籍摘要</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <div className="w-7 h-7 bg-white/20 rounded-full flex items-center justify-center">
+                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
                         </svg>
                       </div>
                       <span>与AI作者智能对话</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <div className="w-7 h-7 bg-white/20 rounded-full flex items-center justify-center">
+                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                         </svg>
                       </div>

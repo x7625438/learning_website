@@ -12,23 +12,25 @@ const Card: React.FC<CardProps> = ({
   children,
   className = '',
   hover = false,
-  padding = 'md'
+  padding = 'md',
 }) => {
   const paddingClasses = {
     none: '',
     sm: 'p-4',
-    md: 'p-6',
-    lg: 'p-8'
+    md: 'p-5',
+    lg: 'p-7',
   }
 
-  const hoverClasses = hover ? 'hover:shadow-lg cursor-pointer' : ''
+  const hoverClasses = hover
+    ? 'hover:shadow-card-hover hover:-translate-y-0.5 cursor-pointer'
+    : ''
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`bg-white rounded-lg shadow-md min-w-0 ${paddingClasses[padding]} ${hoverClasses} transition-shadow ${className}`}
+      className={`glass rounded-2xl shadow-card min-w-0 ${paddingClasses[padding]} ${hoverClasses} transition-all duration-200 ${className}`}
     >
       {children}
     </motion.div>

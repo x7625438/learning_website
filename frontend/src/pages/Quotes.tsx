@@ -31,20 +31,20 @@ const Quotes: React.FC = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
         {/* Header */}
-        <div className="bg-white shadow-sm">
+        <div className="glass-strong shadow-soft-xs">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="py-8">
+            <div className="py-6 sm:py-8">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="text-center"
               >
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
-                  AI金句生成器
+                <h1 className="text-2xl sm:text-3xl font-semibold text-surface-800 mb-3">
+                  金句生成
                 </h1>
-                <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-2">
+                <p className="text-sm sm:text-base text-surface-400 max-w-2xl mx-auto px-2">
                   每日为您生成富有哲理和启发性的金句，支持多主题、多语言，助力您的写作和思考
                 </p>
               </motion.div>
@@ -55,10 +55,10 @@ const Quotes: React.FC = () => {
         {/* Tab Navigation */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white rounded-lg shadow-sm p-1 mb-8"
+            className="glass rounded-2xl shadow-card p-1 mb-8"
           >
             <nav className="flex flex-wrap sm:flex-nowrap gap-2 sm:gap-0 sm:space-x-1">
               {tabs.map((tab) => (
@@ -66,10 +66,10 @@ const Quotes: React.FC = () => {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`
-                    flex items-center justify-center space-x-2 px-4 sm:px-6 py-3 rounded-md font-medium transition-colors text-sm sm:text-base flex-1 sm:flex-initial
+                    flex items-center justify-center space-x-2 px-4 sm:px-6 py-2.5 rounded-xl font-medium transition-all text-sm flex-1 sm:flex-initial
                     ${activeTab === tab.id
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                      ? 'bg-primary-500 text-white shadow-soft-sm'
+                      : 'text-surface-500 hover:text-surface-700 hover:bg-white/60'
                     }
                   `}
                 >
@@ -93,75 +93,67 @@ const Quotes: React.FC = () => {
         </div>
 
         {/* Features Section */}
-        <div className="bg-white py-16">
+        <div className="glass-strong rounded-2xl py-12 mt-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-center mb-12"
+              className="text-center mb-10"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                为什么选择AI金句生成器？
+              <h2 className="text-xl font-semibold text-surface-800 mb-3">
+                为什么选择金句生成？
               </h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">
+              <p className="text-surface-400 text-sm max-w-2xl mx-auto">
                 基于先进的AI技术，为您提供个性化、高质量的金句创作服务
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 {
                   title: '智能主题匹配',
                   description: '根据您选择的主题，生成高度相关的金句内容',
                   icon: '🎯',
-                  color: 'bg-blue-50 text-blue-600'
                 },
                 {
                   title: '多语言支持',
                   description: '支持中文、英文和中英混合的金句生成',
                   icon: '🌍',
-                  color: 'bg-green-50 text-green-600'
                 },
                 {
                   title: '风格多样化',
                   description: '提供励志、哲理、激励、教育等多种风格选择',
                   icon: '🎨',
-                  color: 'bg-purple-50 text-purple-600'
                 },
                 {
                   title: '每日自动生成',
                   description: '每天为您自动生成新的金句，保持灵感源源不断',
                   icon: '📅',
-                  color: 'bg-yellow-50 text-yellow-600'
                 },
                 {
                   title: '个人收藏库',
                   description: '保存喜欢的金句，建立专属的素材库',
                   icon: '💎',
-                  color: 'bg-pink-50 text-pink-600'
                 },
                 {
                   title: '智能分类搜索',
                   description: '按主题、语言等维度快速查找所需金句',
                   icon: '🔍',
-                  color: 'bg-indigo-50 text-indigo-600'
-                }
+                },
               ].map((feature, index) => (
                 <motion.div
                   key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 + index * 0.1 }}
-                  className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+                  transition={{ delay: 0.4 + index * 0.08 }}
+                  className="glass rounded-2xl shadow-card p-5 hover:shadow-card-hover transition-all duration-200"
                 >
-                  <div className={`w-12 h-12 rounded-lg ${feature.color} flex items-center justify-center text-2xl mb-4`}>
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  <div className="text-2xl mb-3">{feature.icon}</div>
+                  <h3 className="text-sm font-semibold text-surface-800 mb-1.5">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-surface-400 text-xs leading-relaxed">
                     {feature.description}
                   </p>
                 </motion.div>

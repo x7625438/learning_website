@@ -1,10 +1,14 @@
+/* Fonts: LXGW WenKai for Chinese headings, Plus Jakarta Sans for Latin */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: 'LXGW WenKai Screen', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
 
   font-synthesis: none;
@@ -13,11 +17,19 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  /* Safe area for notched devices (iPhone X+, etc.) */
+  /* Safe area for notched devices */
   --safe-area-inset-top: env(safe-area-inset-top, 0px);
   --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
   --safe-area-inset-left: env(safe-area-inset-left, 0px);
   --safe-area-inset-right: env(safe-area-inset-right, 0px);
+
+  /* Design tokens as CSS variables */
+  --color-primary: #7c5ce7;
+  --color-primary-light: #a5a0f6;
+  --color-accent: #f59e0b;
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
 }
 
 html {
@@ -30,6 +42,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
+  color: #3f3e39;
+  background: #fafaf9;
 }
 
 #root {
@@ -38,7 +52,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Responsive images - prevent overflow */
+/* Responsive media */
 img, video, iframe {
   max-width: 100%;
   height: auto;
@@ -50,26 +64,26 @@ p, span, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - refined */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  background: #d6d5d2;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #a8a7a3;
 }
 
-/* Hide scrollbar for navigation */
+/* Hide scrollbar utility */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -79,7 +93,7 @@ p, span, h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-/* Navigation scroll indicators */
+/* Navigation scroll fade indicators */
 .nav-scroll-container {
   position: relative;
 }
@@ -89,9 +103,9 @@ p, span, h1, h2, h3, h4, h5, h6 {
   position: absolute;
   left: 0;
   top: 0;
-  width: 20px;
+  width: 24px;
   height: 100%;
-  background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
+  background: linear-gradient(to right, var(--glass-bg), transparent);
   pointer-events: none;
   z-index: 5;
 }
@@ -101,23 +115,22 @@ p, span, h1, h2, h3, h4, h5, h6 {
   position: absolute;
   right: 0;
   top: 0;
-  width: 20px;
+  width: 24px;
   height: 100%;
-  background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+  background: linear-gradient(to left, var(--glass-bg), transparent);
   pointer-events: none;
   z-index: 5;
 }
 
-/* Smooth transitions - scoped to interactive elements to avoid layout glitches */
+/* Smooth transitions for interactive elements */
 button, a, input, select, textarea, [role="button"] {
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
 
-/* Touch-friendly tap targets on mobile - apply to primary interactive elements */
+/* Touch-friendly targets on mobile */
 @media (max-width: 768px) {
-  /* Navigation links and buttons need minimum touch target */
   header button[aria-label],
   header nav a,
   .touch-target {
@@ -129,12 +142,40 @@ button, a, input, select, textarea, [role="button"] {
   }
 }
 
-/* Responsive container - ensures content doesn't overflow on small screens */
+/* Glassmorphism utility classes */
 @layer utilities {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
   .container-responsive {
     width: 100%;
     max-width: 100%;
     padding-left: max(1rem, env(safe-area-inset-left));
     padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #7c5ce7, #a5a0f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-warm {
+    background: linear-gradient(135deg, #7c5ce7, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }

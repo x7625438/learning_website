@@ -361,7 +361,7 @@ const ProblemSolver: React.FC<Props> = ({ activeSession, onSessionComplete }) =>
                   >
                     {loading ? '处理中...' : '提交答案'}
                   </button>
-                  
+
                   <button
                     onClick={getHint}
                     disabled={loading}
@@ -369,13 +369,20 @@ const ProblemSolver: React.FC<Props> = ({ activeSession, onSessionComplete }) =>
                   >
                     {loading ? '获取中...' : '需要提示'}
                   </button>
-                  
+
                   <button
                     onClick={completeSession}
                     disabled={loading}
                     className="px-4 py-2 border border-green-500 text-green-600 rounded-lg font-medium hover:bg-green-50 disabled:opacity-50 transition-colors"
                   >
                     完成解题
+                  </button>
+
+                  <button
+                    onClick={resetSolver}
+                    className="px-4 py-2 border border-surface-300 text-surface-500 rounded-lg font-medium hover:bg-surface-50 transition-colors"
+                  >
+                    退出
                   </button>
                 </div>
               </div>

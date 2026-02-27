@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useUserStore } from '../store'
 import NoteList from '../components/NoteList'
 import NoteEditor from '../components/NoteEditor'
-import ReviewNotes from '../components/ReviewNotes'
 
 interface Note {
   id: string
@@ -22,7 +21,7 @@ interface Note {
 const Notes: React.FC = () => {
   const user = useUserStore((s) => s.user)
   const userId = user?.id || 'demo-user'
-  const [activeTab, setActiveTab] = useState<'list' | 'editor' | 'review'>('list')
+  const [activeTab, setActiveTab] = useState<'list' | 'editor'>('list')
   const [editNote, setEditNote] = useState<Note | null>(null)
   const [refreshTrigger, setRefreshTrigger] = useState(0)
 
@@ -47,7 +46,6 @@ const Notes: React.FC = () => {
   const tabs = [
     { key: 'list' as const, label: '我的笔记' },
     { key: 'editor' as const, label: editNote ? '编辑笔记' : '写笔记' },
-    { key: 'review' as const, label: '复习提醒' },
   ]
 
   return (
@@ -55,28 +53,28 @@ const Notes: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">AI笔记助手</h1>
-          <p className="text-gray-600 mt-1">康奈尔笔记法 · 费曼学习法 · 遗忘曲线复习</p>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-surface-800">笔记助手</h1>
+          <p className="text-surface-400 text-sm mt-1">康奈尔笔记法 · 费曼学习法检测</p>
         </div>
         <button
           onClick={handleNewNote}
-          className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all"
+          className="px-4 py-2 bg-primary-500 text-white rounded-xl text-sm font-medium hover:bg-primary-600 transition-all shadow-soft-sm hover:shadow-soft-md"
         >
           + 新建笔记
         </button>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 mb-6 overflow-x-auto scrollbar-hide">
+      <div className="border-b border-surface-200/60 mb-6 overflow-x-auto scrollbar-hide">
         <div className="flex gap-0 min-w-max">
           {tabs.map(tab => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`px-3 sm:px-4 py-2.5 sm:py-2 text-sm sm:text-base font-medium transition-colors whitespace-nowrap ${
+              className={`px-3 sm:px-4 py-2 text-sm font-medium transition-colors whitespace-nowrap ${
                 activeTab === tab.key
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'text-primary-600 border-b-2 border-primary-500'
+                  : 'text-surface-400 hover:text-surface-700'
               }`}
             >
               {tab.label}
@@ -92,10 +90,6 @@ const Notes: React.FC = () => {
 
       {activeTab === 'editor' && (
         <NoteEditor userId={userId} editNote={editNote} onSaved={handleSaved} />
-      )}
-
-      {activeTab === 'review' && (
-        <ReviewNotes userId={userId} />
       )}
     </div>
   )

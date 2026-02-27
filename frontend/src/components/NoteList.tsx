@@ -26,7 +26,6 @@ const NoteList: React.FC<NoteListProps> = ({ userId, onEdit, refreshTrigger }) =
   const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
-  const [methodFilter, setMethodFilter] = useState<string>('all')
 
   useEffect(() => {
     fetchNotes()
@@ -55,26 +54,8 @@ const NoteList: React.FC<NoteListProps> = ({ userId, onEdit, refreshTrigger }) =
     }
   }
 
-  const getMethodLabel = (method: string) => {
-    switch (method) {
-      case 'cornell': return '康奈尔'
-      case 'feynman': return '费曼'
-      default: return '自由'
-    }
-  }
-
-  const getMethodColor = (method: string) => {
-    switch (method) {
-      case 'cornell': return 'bg-blue-100 text-blue-800'
-      case 'feynman': return 'bg-purple-100 text-purple-800'
-      default: return 'bg-gray-100 text-gray-800'
-    }
-  }
-
   const filtered = notes.filter(n => {
-    const matchSearch = !search || n.title.includes(search) || n.content.includes(search)
-    const matchMethod = methodFilter === 'all' || n.method === methodFilter
-    return matchSearch && matchMethod
+    return !search || n.title.includes(search) || n.content.includes(search)
   })
 
   if (loading) {
@@ -87,25 +68,15 @@ const NoteList: React.FC<NoteListProps> = ({ userId, onEdit, refreshTrigger }) =
 
   return (
     <div className="space-y-4">
-      {/* Search and filter */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      {/* Search */}
+      <div>
         <input
           type="text"
           placeholder="搜索笔记..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
-        <select
-          value={methodFilter}
-          onChange={e => setMethodFilter(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="all">全部方法</option>
-          <option value="free">自由笔记</option>
-          <option value="cornell">康奈尔笔记</option>
-          <option value="feynman">费曼笔记</option>
-        </select>
       </div>
 
       {filtered.length === 0 ? (
@@ -127,9 +98,6 @@ const NoteList: React.FC<NoteListProps> = ({ userId, onEdit, refreshTrigger }) =
                     {note.content || '(空内容)'}
                   </p>
                   <div className="flex flex-wrap gap-2 items-center">
-                    <span className={`text-xs px-2 py-1 rounded ${getMethodColor(note.method)}`}>
-                      {getMethodLabel(note.method)}
-                    </span>
                     {note.tags.map((tag, i) => (
                       <span key={i} className="text-xs px-2 py-1 rounded bg-green-100 text-green-800">
                         {tag}
